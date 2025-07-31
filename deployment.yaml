@@ -1,0 +1,123 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: unify-backend-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: unify-backend-pod
+  template:
+    metadata:
+      labels:
+        app: unify-backend-pod
+    spec:
+      containers:
+        - name: unify-backend
+          image: minhdangdev/unify-backend
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: unify-secrets
+                  key: db_url
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: unify-secrets
+                  key: db_password
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: unify-secrets
+                  key: db_username
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: unify-secrets
+                  key: mongo_uri
+            - name: MONGO_DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: unify-secrets
+                  key: mongo_db_name
+            - name: MAIL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: unify-secrets
+                  key: mail_host
+            - name: MAIL_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: unify-secrets
+                  key: mail_port
+            - name: MAIL_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: unify-secrets
+                  key: mail_username
+            - name: MAIL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: unify-secrets
+                  key: mail_password
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: unify-secrets
+                  key: jwt_key
+            - name: REDIS_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: unify-secrets
+                  key: redis_host
+            - name: REDIS_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: unify-secrets
+                  key: redis_port
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: unify-secrets
+                  key: redis_password
+            - name: LIVE_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: unify-secrets
+                  key: livekit_host
+            - name: LIVEKIT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: unify-secrets
+                  key: livekit_url
+            - name: LIVEKIT_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: unify-secrets
+                  key: livekit_api_key
+            - name: LIVEKIT_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: unify-secrets
+                  key: livekit_api_secret
+
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8080
+            initialDelaySeconds: 60
+            timeoutSeconds: 240
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8080
+            initialDelaySeconds: 60
+            timeoutSeconds: 240
+          lifecycle:
+            preStop:
+              exec:
+                command: [ "sh", "-c", "sleep 10" ]
