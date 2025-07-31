@@ -6,11 +6,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: unify-backend-pod
+      app: unify-backend
   template:
     metadata:
       labels:
-        app: unify-backend-pod
+        app: unify-backend
     spec:
       containers:
         - name: unify-backend
