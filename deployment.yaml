@@ -84,7 +84,7 @@ spec:
                 secretKeyRef:
                   name: unify-secrets
                   key: redis_password
-            - name: LIVE_HOST
+            - name: LIVEKIT_HOST
               valueFrom:
                 secretKeyRef:
                   name: unify-secrets
