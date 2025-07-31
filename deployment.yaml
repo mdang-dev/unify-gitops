@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: unify-backend
-          image: minhdangdev/unify-backend
+          image: minhdangdev/unify-backend:1.0.0-14
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
@@ -84,6 +84,16 @@ spec:
                 secretKeyRef:
                   name: unify-secrets
                   key: redis_password
+            - name: LIVEKIT_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: unify-secrets
+                  key: livekit_host
+            - name: LIVEKIT_URL
+              valueFrom:
+                secretKeyRef:
+                  name: unify-secrets
+                  key: livekit_url      
             - name: LIVEKIT_API_KEY
               valueFrom:
                 secretKeyRef:
