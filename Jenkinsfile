@@ -11,7 +11,7 @@ pipeline {
      }
     stage('Checkout from Git') {
         steps {
-           git branch: 'main', credentialsId: 'git-ssh', url: 'git@github.com:mdang-dev/unify-gitops.git'
+           git branch: 'main', credentialsId: 'github', url: 'https://github.com/mdang-dev/unify-gitops'
         }
     }
     stage("Update the Deployment Tags") {
@@ -22,27 +22,19 @@ pipeline {
                 cat deployment.yaml
               """
         }
-    }
-  stage('Prepare SSH') {
-     steps {
-          sh """
-            mkdir -p ~/.ssh
-            ssh-keyscan github.com >> ~/.ssh/known_hosts || true
-          """
-     }
   }
   stage("Push the changed deployment file to GitHub") {
         steps {
-              sh """
-                  git config --global user.name "mdang-dev"
-                  git config --global user.email "minhdang25.dev@gmail.com"
-                  git add deployment.yaml
-                  git commit -m "Updated Deployment Manifest"
-                """
-             sshagent(credentials: ['git-ssh']) {
-              sh 'git push git@github.com:mdang-dev/unify-gitops.git main'
-            }
-      }
+            sh """
+                    git config --global user.name "mdang-dev"
+                    git config --global user.email "minddang25.dev@gmail.com"
+                    git add deployment.yaml
+                    git commit -m "Updated Deployment Manifest"
+              """
+                withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default')]) {
+                    sh "git push https://github.com/mdang-dev/unify-gitops main"
+                }
+        }
+    }
   }
-}
 }
