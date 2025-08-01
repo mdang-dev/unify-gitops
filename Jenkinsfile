@@ -23,7 +23,15 @@ pipeline {
               """
         }
     }
-    stage("Push the changed deployment file to GitHub") {
+  stage('Prepare SSH') {
+     steps {
+          sh """
+            mkdir -p ~/.ssh
+            ssh-keyscan github.com >> ~/.ssh/known_hosts || true
+          """
+     }
+  }
+  stage("Push the changed deployment file to GitHub") {
         steps {
               sh """
                   git config --global user.name "mdang-dev"
@@ -35,6 +43,6 @@ pipeline {
               sh 'git push git@github.com:mdang-dev/unify-gitops.git main'
             }
       }
-    }
   }
+}
 }
