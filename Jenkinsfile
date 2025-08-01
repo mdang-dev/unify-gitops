@@ -11,7 +11,7 @@ pipeline {
      }
     stage('Checkout from Git') {
         steps {
-           git branch: 'main', credentialsId:'github', url: 'https://github.com/mdang-dev/unify-gitops'
+           git branch: 'main', credentialsId:'git-ssh', url: 'git@github.com:mdang-dev/unify-gitops.git'
         }
     }
     stage("Update the Deployment Tags") {
