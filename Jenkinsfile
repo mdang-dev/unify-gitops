@@ -23,17 +23,17 @@ pipeline {
               """
         }
     }
-    stage("Push the changed deployment file to GitHub") {
-        steps {
-            sh """
-                git config --global user.name "mdang-dev"
-                git config --global user.email "minhdang25.dev@gmail.com"
-                git add deployment.yaml
-                git commit -m "Updated Deployment Manifest"
-            """
-            withCredentials([gitUsernamePassword(credentialsId: 'github', gitToolName: 'Default')]) {
-                sh "git push https://github.com/mdang-dev/unify-gitops main"
-            }
+    stage("Push Changes") {
+      steps {
+        sshagent(['git-ssh']) {
+          sh """
+            git config user.name "mdang-dev"
+            git config user.email "minhdang25.dev@gmail.com"
+            git add deployment.yaml
+            git commit -m "Updated Deployment Manifest"
+            git push origin main
+          """
+        }
       }
     }
   }
