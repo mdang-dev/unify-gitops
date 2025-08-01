@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: unify-backend-deployment
+  name: unify-backend:
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: unify-backend
+      app: unify-backend:
   template:
     metadata:
       labels:
-        app: unify-backend
+        app: unify-backend:
     spec:
       containers:
-        - name: unify-backend
-          image: minhdangdev/unify-backend:latest
+        - name: unify-backend:
+          image: minhdangdev/unify-backend:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
