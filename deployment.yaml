@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: unify-backend:1.0.0-7
+  name: unify-backend-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: unify-backend:1.0.0-7
+      app: unify-backend-app
   template:
     metadata:
       labels:
-        app: unify-backend:1.0.0-7
+        app: unify-backend-app
     spec:
       containers:
-        - name: unify-backend:1.0.0-7
+        - name: unify-backend-app
           image: minhdangdev/unify-backend:1.0.0-7
           imagePullPolicy: IfNotPresent
           ports:
