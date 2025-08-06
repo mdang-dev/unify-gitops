@@ -1,7 +1,7 @@
 pipeline {
   agent any
   environment {
-    APP_NAME = "unify-backend"
+    APP_NAME = "unify-backend-pipeline"
   }
   stages {
      stage('clean workspace') {
