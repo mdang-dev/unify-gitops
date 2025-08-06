@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: unify-backend-service 
   labels:
-    app: unify-backend  
+    app: unify-backend-app  
 spec:
   selector:
-    app: unify-backend 
+    app: unify-backend-app 
   ports:
     - port: 80
       targetPort: 8080
