@@ -13,8 +13,8 @@ spec:
         app: unify-backend-app
     spec:
       containers:
-        - name: unify-backend:1.0.0-12
-          image: minhdangdev/unify-backend
+        - name: unify-backend-app
+          image: minhdangdev/unify-backend-pipeline
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
