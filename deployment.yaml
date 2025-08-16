@@ -106,7 +106,15 @@ spec:
                 secretKeyRef:
                   name: unify-secrets
                   key: livekit_api_secret
-
+            - name: JAVA_OPTS
+              value: "-Xms512m -Xmx1g"      
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "0.5"
+            limits:
+              memory: "1.5Gi"
+              cpu: "1"
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
